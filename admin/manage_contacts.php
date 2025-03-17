@@ -291,16 +291,6 @@ $result = $conn->query($query);
                     <?php endif; ?>
                 </a>
             </li>
-            <li>
-                <a href="manage_users.php">
-                    <i class="fas fa-users"></i> Users
-                </a>
-            </li>
-            <li>
-                <a href="settings.php">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
-            </li>
         </ul>
         
         <!-- User profile -->

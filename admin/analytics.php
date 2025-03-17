@@ -302,16 +302,6 @@ if (!$blogDateColumnExists) {
                 </a>
             </li>
             <li>
-                <a href="manage_users.php">
-                    <i class="fas fa-users"></i> Users
-                </a>
-            </li>
-            <li>
-                <a href="settings.php">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
-            </li>
-            <li>
                 <a href="analytics.php" class="active">
                     <i class="fas fa-chart-bar"></i> Analytics
                 </a>

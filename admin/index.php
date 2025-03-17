@@ -321,16 +321,7 @@ $activeVolunteers = $activeVolunteersData['active_count'] ?? 0;
                     <?php endif; ?>
                 </a>
             </li>
-            <li>
-                <a href="manage_users.php">
-                    <i class="fas fa-users"></i> Users
-                </a>
-            </li>
-            <li>
-                <a href="settings.php">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
-            </li>
+
         </ul>
         
         <!-- User profile -->
@@ -450,6 +441,7 @@ $activeVolunteers = $activeVolunteersData['active_count'] ?? 0;
                         <a href="manage_donations.php" class="btn btn-primary">Access Donation Manager</a>
                     </div>
                 </div>
+                <!-- User Management Card - Commented out
                 <div class="col-lg-4 col-md-6">
                     <div class="dashboard-card h-100">
                         <div class="card-icon">
@@ -460,6 +452,9 @@ $activeVolunteers = $activeVolunteersData['active_count'] ?? 0;
                         <a href="manage_users.php" class="btn btn-primary">Access User Manager</a>
                     </div>
                 </div>
+                -->
+                
+                <!-- Settings Card - Commented out
                 <div class="col-lg-4 col-md-6">
                     <div class="dashboard-card h-100">
                         <div class="card-icon">
@@ -470,6 +465,7 @@ $activeVolunteers = $activeVolunteersData['active_count'] ?? 0;
                         <a href="settings.php" class="btn btn-primary">Access Settings</a>
                     </div>
                 </div>
+                -->
                 <div class="col-lg-4 col-md-6">
                     <div class="dashboard-card h-100">
                         <div class="card-icon">

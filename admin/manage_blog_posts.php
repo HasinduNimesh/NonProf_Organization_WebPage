@@ -582,16 +582,6 @@ $admin_username = isset($_SESSION['admin_username']) ? $_SESSION['admin_username
                     <?php endif; ?>
                 </a>
             </li>
-            <li>
-                <a href="manage_users.php">
-                    <i class="fas fa-users"></i> Users
-                </a>
-            </li>
-            <li>
-                <a href="settings.php">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
-            </li>
         </ul>
     </div>
     

@@ -1,3 +1,15 @@
+<?php
+// Database Connection
+$conn = new mysqli("sql107.epizy.com", "if0_38374977", "GIHTEk7Qu0Nu", "if0_38374977_wingslanka_db", 3306);
+
+// Check connection
+if ($conn->connect_error) {
+    error_log("Connection failed: " . $conn->connect_error);
+    $databaseError = true;
+} else {
+    $databaseError = false;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -472,26 +484,137 @@ $result = $mysqli->query($query);
 ?>
 <section class="ftco-section bg-light">
   <div class="container">
-    <div class="row">
-      <?php while($donor = $result->fetch_assoc()): ?>
-      <div class="col-lg-4 d-flex mb-sm-4 ftco-animate">
-        <div class="staff">
-          <div class="d-flex mb-4">
-            <div class="img" style="background-image: url('<?php echo !empty($donor['donor_image']) ? $donor['donor_image'] : 'images/default-donor.jpg'; ?>');"></div>
-            <div class="info ml-4">
-              <h3><a href="#"><?php echo htmlspecialchars($donor['donor_name']); ?></a></h3>
-              <span class="position"><?php echo date("M d, Y", strtotime($donor['created_at'])); ?></span>
-              <div class="text">
-                <p>Donated <span>LKR <?php echo number_format($donor['amount'], 2); ?></span><?php if(!empty($donor['message'])): ?> for <a href="#"><?php echo htmlspecialchars($donor['message']); ?></a><?php endif; ?></p>
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-7 text-center heading-section ftco-animate">
+        <h2 class="mb-3">Our Generous Donors</h2>
+        <p>Thank you to everyone who has contributed to our mission. Your support makes our work possible.</p>
+      </div>
+    </div>
+    
+    <?php
+    // Get all donors instead of just 3
+    $query = "SELECT donor_name, donor_image, amount, message, payment_method, created_at 
+              FROM donations 
+              ORDER BY created_at DESC";
+    
+    $result = $mysqli->query($query);
+    
+    if (!$result) {
+      echo "<!-- Query error: " . $mysqli->error . " -->";
+    }
+    
+    // Check if we have donors
+    if ($result && $result->num_rows > 0) {
+      // Calculate number of slides needed (6 donors per slide)
+      $total_donors = $result->num_rows;
+      $donors_per_slide = 6; // 3x2 grid
+      $total_slides = ceil($total_donors / $donors_per_slide);
+    ?>
+    
+    <!-- Donors Carousel -->
+    <div class="donor-carousel owl-carousel ftco-animate">
+      <?php
+      $donor_count = 0;
+      $donors = array(); // Store all donors
+      
+      // Fetch all donors into array
+      while ($donor = $result->fetch_assoc()) {
+        $donors[] = $donor;
+      }
+      
+      // Loop through each slide
+      for ($slide = 0; $slide < $total_slides; $slide++) {
+        echo '<div class="item">';
+        
+        // First row (3 donors)
+        echo '<div class="row mb-4">';
+        for ($i = 0; $i < 3; $i++) {
+          $index = ($slide * $donors_per_slide) + $i;
+          if ($index < $total_donors) {
+            $donor = $donors[$index];
+            ?>
+            <div class="col-md-4">
+              <div class="staff">
+                <div class="d-flex mb-4">
+                  <div class="img" style="background-image: url('<?php echo !empty($donor['donor_image']) ? $donor['donor_image'] : 'images/default-donor.jpg'; ?>');"></div>
+                  <div class="info ml-4">
+                    <h3><a href="#"><?php echo htmlspecialchars($donor['donor_name']); ?></a></h3>
+                    <span class="position"><?php echo date("M d, Y", strtotime($donor['created_at'])); ?></span>
+                    <div class="text">
+                      <p>Donated <span>LKR <?php echo number_format($donor['amount'], 2); ?></span><?php if(!empty($donor['message'])): ?> for <a href="#"><?php echo htmlspecialchars($donor['message']); ?></a><?php endif; ?></p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+            <?php
+          } else {
+            // Empty cell if no more donors
+            echo '<div class="col-md-4"></div>';
+          }
+        }
+        echo '</div>'; // End first row
+        
+        // Second row (3 donors)
+        echo '<div class="row">';
+        for ($i = 0; $i < 3; $i++) {
+          $index = ($slide * $donors_per_slide) + $i + 3;
+          if ($index < $total_donors) {
+            $donor = $donors[$index];
+            ?>
+            <div class="col-md-4">
+              <div class="staff">
+                <div class="d-flex mb-4">
+                  <div class="img" style="background-image: url('<?php echo !empty($donor['donor_image']) ? $donor['donor_image'] : 'images/default-donor.jpg'; ?>');"></div>
+                  <div class="info ml-4">
+                    <h3><a href="#"><?php echo htmlspecialchars($donor['donor_name']); ?></a></h3>
+                    <span class="position"><?php echo date("M d, Y", strtotime($donor['created_at'])); ?></span>
+                    <div class="text">
+                      <p>Donated <span>LKR <?php echo number_format($donor['amount'], 2); ?></span><?php if(!empty($donor['message'])): ?> for <a href="#"><?php echo htmlspecialchars($donor['message']); ?></a><?php endif; ?></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php
+          } else {
+            // Empty cell if no more donors
+            echo '<div class="col-md-4"></div>';
+          }
+        }
+        echo '</div>'; // End second row
+        
+        echo '</div>'; // End slide item
+      }
+      ?>
+    </div>
+    
+    <!-- Navigation buttons -->
+    <div class="text-center mt-4">
+      <div class="carousel-controls">
+        <button class="btn btn-primary mx-2 donor-prev">
+          <i class="icon-arrow-left"></i> Previous
+        </button>
+        <button class="btn btn-primary mx-2 donor-next">
+          Next <i class="icon-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+    <?php
+    } else {
+      // No donors found
+    ?>
+    <div class="row">
+      <div class="col-12 text-center">
+        <div class="alert alert-info">
+          <p>No donations have been recorded yet. Be the first to donate!</p>
         </div>
       </div>
-      <?php endwhile; ?>
     </div>
+    <?php } ?>
   </div>
 </section>
+
 <?php
 $mysqli->close();
 ?>
@@ -520,8 +643,8 @@ $mysqli->close();
                       $footerBlogQuery = "SELECT id, title, post_date, image FROM blog_posts 
                                         WHERE status = 'published' 
                                         ORDER BY post_date DESC LIMIT 2";
-                      // Use the existing mysqli connection
-                      $footerBlogResult = $mysqli->query($footerBlogQuery);
+                      // Use the $conn connection instead of $mysqli which is closed
+                      $footerBlogResult = $conn->query($footerBlogQuery);
 
                       if ($footerBlogResult && $footerBlogResult->num_rows > 0) {
                           while ($post = $footerBlogResult->fetch_assoc()) {
@@ -651,5 +774,35 @@ $mysqli->close();
     window.addEventListener('orientationchange', preventHorizontalScroll);
   });
 </script>
-  </body>
+
+<script>
+  $(document).ready(function(){
+    // Initialize donor carousel
+    $('.donor-carousel').owlCarousel({
+      items: 1,
+      loop: true,
+      margin: 30,
+      nav: false,
+      dots: true,
+      autoplay: true,
+      autoplayTimeout: 7000,
+      autoplayHoverPause: true,
+      responsive: {
+        0: {
+          items: 1
+        }
+      }
+    });
+    
+    // Custom navigation
+    $('.donor-prev').click(function() {
+      $('.donor-carousel').trigger('prev.owl.carousel');
+    });
+    
+    $('.donor-next').click(function() {
+      $('.donor-carousel').trigger('next.owl.carousel');
+    });
+  });
+</script>
+</body>
 </html>
