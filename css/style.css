@@ -7482,7 +7482,7 @@ h1, h2, h3, h4, h5,
 .hero-wrap {
   width: 100%;
   height: calc(100vh - 117px);
-  min-height: 700px;
+  min-height: 600px;
   position: relative; }
   .hero-wrap.hero-wrap-2 {
     height: 600px; }
@@ -7493,8 +7493,8 @@ h1, h2, h3, h4, h5,
     right: 0;
     bottom: 0;
     content: '';
-    opacity: 0;
-    background: #000; }
+    opacity: 0.8; /* Added opacity */
+    background: rgba(0, 0, 0, 0.7); /* Changed to semi-transparent black */ }
 
 .slider-text {
   color: #fff;
